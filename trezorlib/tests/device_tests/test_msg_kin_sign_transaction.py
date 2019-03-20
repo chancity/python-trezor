@@ -15,17 +15,17 @@
 # If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.
 
 # XDR decoding tool available at:
-#   https://www.kin.org/laboratory/#xdr-viewer
+#   https://www.stellar.org/laboratory/#xdr-viewer
 #
 # ## Test Info
 #
-# The default mnemonic generates the following Stellar keypair at path 44'/148'/0':
+# The default mnemonic generates the following Kin keypair at path 44'/2017'/0':
 #   GAK5MSF74TJW6GLM7NLTL76YZJKM2S4CGP3UH4REJHPHZ4YBZW2GSBPW
 #   SDE2YU4V2IYSJIUH7MONDYZTSSLDXV5QDEGUUOLCU4TK7CZWTAXZ5CEG
 #
 # ### Testing a new Operation
 #
-# 1. Start at the Stellar transaction builder: https://www.kin.org/laboratory/#txbuilder?network=test
+# 1. Start at the Stellar transaction builder: https://www.stellar.org/laboratory/#txbuilder?network=test
 #   (Verify that the "test" network is active in the upper right)
 #
 # 2. Fill out the fields at the top as follows:
@@ -57,7 +57,7 @@ from .common import TrezorTest
 
 
 @pytest.mark.kin
-class TestMsgStellarSignTransaction(TrezorTest):
+class TestMsgKinSignTransaction(TrezorTest):
 
     ADDRESS_N = parse_path(kin.DEFAULT_BIP32_PATH)
     NETWORK_PASSPHRASE = "Test SDF Network ; September 2015"
@@ -65,7 +65,7 @@ class TestMsgStellarSignTransaction(TrezorTest):
     def test_sign_tx_bump_sequence_op(self):
         self.setup_mnemonic_nopin_nopassphrase()
 
-        op = proto.StellarBumpSequenceOp()
+        op = proto.KinBumpSequenceOp()
         op.bump_to = 0x7FFFFFFFFFFFFFFF
         tx = self._create_msg()
 
@@ -80,7 +80,7 @@ class TestMsgStellarSignTransaction(TrezorTest):
     def test_sign_tx_account_merge_op(self):
         self.setup_mnemonic_nopin_nopassphrase()
 
-        op = proto.StellarAccountMergeOp()
+        op = proto.KinAccountMergeOp()
         op.destination_account = (
             "GBOVKZBEM2YYLOCDCUXJ4IMRKHN4LCJAE7WEAEA2KF562XFAGDBOB64V"
         )
@@ -104,7 +104,7 @@ class TestMsgStellarSignTransaction(TrezorTest):
         """Create new account with initial balance of 100.0333"""
         self.setup_mnemonic_nopin_nopassphrase()
 
-        op = proto.StellarCreateAccountOp()
+        op = proto.KinCreateAccountOp()
         op.new_account = "GBOVKZBEM2YYLOCDCUXJ4IMRKHN4LCJAE7WEAEA2KF562XFAGDBOB64V"
         op.starting_balance = 1000333000
 
@@ -123,7 +123,7 @@ class TestMsgStellarSignTransaction(TrezorTest):
         """Native payment of 50.0111 XLM to GBOVKZBEM2YYLOCDCUXJ4IMRKHN4LCJAE7WEAEA2KF562XFAGDBOB64V"""
         self.setup_mnemonic_nopin_nopassphrase()
 
-        op = proto.StellarPaymentOp()
+        op = proto.KinPaymentOp()
         op.amount = 500111000
         op.destination_account = (
             "GBOVKZBEM2YYLOCDCUXJ4IMRKHN4LCJAE7WEAEA2KF562XFAGDBOB64V"
@@ -144,12 +144,12 @@ class TestMsgStellarSignTransaction(TrezorTest):
         """Native payment of 50.0111 XLM to GBOVKZBEM2YYLOCDCUXJ4IMRKHN4LCJAE7WEAEA2KF562XFAGDBOB64V"""
         self.setup_mnemonic_nopin_nopassphrase()
 
-        op = proto.StellarPaymentOp()
+        op = proto.KinPaymentOp()
         op.amount = 500111000
         op.destination_account = (
             "GBOVKZBEM2YYLOCDCUXJ4IMRKHN4LCJAE7WEAEA2KF562XFAGDBOB64V"
         )
-        op.asset = proto.StellarAssetType(0)
+        op.asset = proto.KinAssetType(0)
 
         tx = self._create_msg()
 
@@ -166,13 +166,13 @@ class TestMsgStellarSignTransaction(TrezorTest):
         """Custom asset payment (code length 1) of 50.0111 X to GBOVKZBEM2YYLOCDCUXJ4IMRKHN4LCJAE7WEAEA2KF562XFAGDBOB64V"""
         self.setup_mnemonic_nopin_nopassphrase()
 
-        op = proto.StellarPaymentOp()
+        op = proto.KinPaymentOp()
         op.amount = 500111000
         op.destination_account = (
             "GBOVKZBEM2YYLOCDCUXJ4IMRKHN4LCJAE7WEAEA2KF562XFAGDBOB64V"
         )
 
-        op.asset = proto.StellarAssetType(
+        op.asset = proto.KinAssetType(
             1, "X", "GAUYJFQCYIHFQNS7CI6BFWD2DSSFKDIQZUQ3BLQODDKE4PSW7VVBKENC"
         )
         tx = self._create_msg()
@@ -190,13 +190,13 @@ class TestMsgStellarSignTransaction(TrezorTest):
         """Custom asset payment (code length 12) of 50.0111 ABCDEFGHIJKL to GBOVKZBEM2YYLOCDCUXJ4IMRKHN4LCJAE7WEAEA2KF562XFAGDBOB64V"""
         self.setup_mnemonic_nopin_nopassphrase()
 
-        op = proto.StellarPaymentOp()
+        op = proto.KinPaymentOp()
         op.amount = 500111000
         op.destination_account = (
             "GBOVKZBEM2YYLOCDCUXJ4IMRKHN4LCJAE7WEAEA2KF562XFAGDBOB64V"
         )
 
-        op.asset = proto.StellarAssetType(
+        op.asset = proto.KinAssetType(
             2,
             "ABCDEFGHIJKL",
             "GAUYJFQCYIHFQNS7CI6BFWD2DSSFKDIQZUQ3BLQODDKE4PSW7VVBKENC",
@@ -216,7 +216,7 @@ class TestMsgStellarSignTransaction(TrezorTest):
         """Set inflation destination"""
         self.setup_mnemonic_nopin_nopassphrase()
 
-        op = proto.StellarSetOptionsOp()
+        op = proto.KinSetOptionsOp()
         op.inflation_destination_account = (
             "GAFXTC5OV5XQD66T7WGOB2HUVUC3ZVJDJMBDPTVQYV3G3K7TUHC6CLBR"
         )
@@ -231,7 +231,7 @@ class TestMsgStellarSignTransaction(TrezorTest):
             == b"dveWhKY8x7b0YqGHWH6Fo1SskxaHP11NXd2n6oHKGiv+T/LqB+CCzbmJA0tplZ+0HNPJbHD7L3Bsg/y462qLDA=="
         )
 
-        op = proto.StellarSetOptionsOp()
+        op = proto.KinSetOptionsOp()
         op.signer_type = 0
         op.signer_key = bytes.fromhex(
             "72187adb879c414346d77c71af8cce7b6eaa57b528e999fd91feae6b6418628e"
@@ -247,7 +247,7 @@ class TestMsgStellarSignTransaction(TrezorTest):
             == b"EAeihuFBhUnjH6Sgd/+uAHlvajfv944VEpNSCLsOULNxYWdo/S0lJdUZw/2kN6I+ztKL7ZPQ5gYPJRNUePTOCg=="
         )
 
-        op = proto.StellarSetOptionsOp()
+        op = proto.KinSetOptionsOp()
         op.medium_threshold = 0
 
         tx = self._create_msg()
@@ -259,7 +259,7 @@ class TestMsgStellarSignTransaction(TrezorTest):
             == b"E2pz06PFB5CvIT3peUcY0wxo7u9da2h6/+/qim1eRWLHC73ZtFqDtLMBaKnr63ZfjB/kDzZmCzHxiv5m+m6+AQ=="
         )
 
-        op = proto.StellarSetOptionsOp()
+        op = proto.KinSetOptionsOp()
         op.low_threshold = 0
         op.high_threshold = 3
         op.clear_flags = 0
@@ -273,7 +273,7 @@ class TestMsgStellarSignTransaction(TrezorTest):
             == b"ySQE4aS0TI+N1xjSwi/pABHpC+A6RrNPWDOuFYGJFQ5B4vIU2S+ql2gCGLE7bQiYZ5dK9021f+a30mZoYeFLDw=="
         )
 
-        op = proto.StellarSetOptionsOp()
+        op = proto.KinSetOptionsOp()
         op.set_flags = 3
         op.master_weight = 4
         op.home_domain = "hello"
@@ -287,8 +287,8 @@ class TestMsgStellarSignTransaction(TrezorTest):
             == b"22rfcOrxBiE5akpNsnWX8yPgAOpclbajVqXUaXMNeL000p1OhFhi050t1+GNRpoSNyfVsJGNvtlICGpH4ksDAQ=="
         )
 
-    def _create_msg(self) -> proto.StellarSignTx:
-        tx = proto.StellarSignTx()
+    def _create_msg(self) -> proto.KinSignTx:
+        tx = proto.KinSignTx()
         tx.source_account = "GAK5MSF74TJW6GLM7NLTL76YZJKM2S4CGP3UH4REJHPHZ4YBZW2GSBPW"
         tx.fee = 100
         tx.sequence_number = 0x100000000

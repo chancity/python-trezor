@@ -34,7 +34,7 @@ class TestMsgKinGetAddress(TrezorTest):
         assert address == "GAK5MSF74TJW6GLM7NLTL76YZJKM2S4CGP3UH4REJHPHZ4YBZW2GSBPW"
 
     def test_kin_get_address_sep(self):
-        # data from https://github.com/kin/kin-protocol/blob/master/ecosystem/sep-0005.md
+        # data from https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0005.md
         debuglink.load_device_by_mnemonic(
             self.client,
             mnemonic="illness spike retreat truth genius clock brain pass fit cave bargain toe",
@@ -50,7 +50,7 @@ class TestMsgKinGetAddress(TrezorTest):
         assert address == "GDRXE2BQUC3AZNPVFSCEZ76NJ3WWL25FYFK6RGZGIEKWE4SOOHSUJUJ6"
 
         address = kin.get_address(
-            self.client, parse_path("m/44h/2017h/0h"), show_display=True
+            self.client, parse_path("m/44h/148h/1h"), show_display=True
         )
         assert address == "GBAW5XGWORWVFE2XTJYDTLDHXTY2Q2MO73HYCGB3XMFMQ562Q2W2GJQX"
 

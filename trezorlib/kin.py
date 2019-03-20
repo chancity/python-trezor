@@ -49,7 +49,7 @@ OP_BUMP_SEQUENCE = 11
 
 
 DEFAULT_BIP32_PATH = "m/44h/2017h/0h"
-# Kin's BIP32 differs to Bitcoin's see https://github.com/kin/kin-protocol/blob/master/ecosystem/sep-0005.md
+# Stellar's BIP32 differs to Bitcoin's see https://github.com/stellar/stellar-protocol/blob/master/ecosystem/sep-0005.md
 DEFAULT_NETWORK_PASSPHRASE = "Kin Mainnet ; December 2018"
 
 
@@ -282,7 +282,7 @@ def _parse_operation_bytes(unpacker):
         return op
 
     # Bump Sequence
-    # see: https://github.com/kin/kin-core/blob/master/src/xdr/Kin-transaction.x#L269
+    # see: https://github.com/stellar/stellar-core/blob/master/src/xdr/Stellar-transaction.x#L269
     if type == OP_BUMP_SEQUENCE:
         return messages.KinBumpSequenceOp(
             source_account=source_account, bump_to=unpacker.unpack_uhyper()
@@ -323,7 +323,7 @@ def _crc16_checksum(bytes):
 
     Ported from Java implementation at: http://introcs.cs.princeton.edu/java/61data/CRC16CCITT.java.html
 
-    Initial value changed to 0x0000 to match Kin configuration.
+    Initial value changed to 0x0000 to match Stellar configuration.
     """
     crc = 0x0000
     polynomial = 0x1021
